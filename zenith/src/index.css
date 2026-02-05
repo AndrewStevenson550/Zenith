@@ -10,8 +10,13 @@
   --font-inter: 'Inter', serif;
   --color-transp-gray: #7f8993;
   --color-dark-green: #198f6e;
+  --color-secondary: rgb(26, 36, 46);
+  --color-calender: rgb(20, 120, 227);
+  --color-time-card-bg: rgb(19, 128, 237);
+
+  --color-time-white: rgb(253, 255, 250);
 }
 
 body {
-  background-color: #101821;
+  background-color: rgb(16, 24, 33);
 }

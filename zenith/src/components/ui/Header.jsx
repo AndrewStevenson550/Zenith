@@ -1,12 +1,15 @@
 import React from 'react'
-
+import { Calendar } from 'lucide-react';
 function Header() {
 
     const formattedDate = new Intl.DateTimeFormat('en-GB', {
         weekday: 'long',  // "Wednesday"
         day: '2-digit',   // "04"
-        month: 'short'    // "Feb"
+        month: 'short',
+        year: 'numeric'    // "Feb"
     }).format(new Date());
+
+    
   return (
         <div className="text-white p-10">
     {/* TOP ROW: Logo and System Status */}
@@ -28,7 +31,7 @@ function Header() {
             </h2>
             
             {/* The Date h4 separated from the greeting */}
-            <h4 className='mr-7'>{formattedDate}</h4>
+            <h4 className='mr-7 w-60 h-10 bg-secondary flex text-center items-center justify-center rounded-md'><Calendar className='text-calender mr-2'/>‎ {formattedDate}</h4>
         </div>
         
         <h4 className="mt-3 text-slate-400 font-inter text-lg">

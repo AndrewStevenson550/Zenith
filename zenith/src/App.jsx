@@ -1,4 +1,5 @@
 import Header from "./components/ui/Header"
+import TimeCard from "./components/widgets/TimeCard"
 import './index.css'
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
   return (
     <>
       <Header />
+      <TimeCard />
     </>
   )
 }
