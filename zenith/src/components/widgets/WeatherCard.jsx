@@ -24,13 +24,13 @@ function WeatherCard() {
   return (
     <>
       <div className=' bg-secondary ml-85 -mt-37'>
-        <div className=' align-center'>
-          <img src={weather.current.condition.icon} alt="sunny/windy/snowy/ect" />
-
+        <div className=' align-center flex gap-3'>
+          <img src={weather.current.condition.icon} alt="sunny/windy/snowy/ect" className=' bg-trans-yellow rounded-4xl '/>
+          <h3 className=' font-inter font-[900] text-time-white mt-5 '>{weather.current.temp_f}°F</h3>
         </div>
-        <div className=' font-inter font=[900]'>
-          h
-        </div>
+        
+          
+        
       </div>
     </>
   );

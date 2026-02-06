@@ -17,6 +17,7 @@
   --color-time-white: rgb(253, 255, 250);
   --color-clock-blue: rgb(161, 204, 247);
   --color-clock-blue-t: rgb(67, 153, 240);
+  --color-trans-yellow: rgb(49, 51, 46);
 }
 
 body {
