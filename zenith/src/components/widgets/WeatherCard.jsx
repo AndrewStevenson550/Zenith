@@ -23,7 +23,7 @@ function WeatherCard() {
 
   return (
     <>
-      <div className="bg-[#1a222e] text-white p-8 rounded-2xl flex items-center max-w-3xl font-sans ml-105 -mt-50">
+      <div className="bg-[#1a222e] text-white p-8 rounded-2xl flex items-center max-w-3xl font-sans ml-98 -mt-50">
 
         <div className="flex items-center gap-8 pr-20 border-r border-gray-700">
           <div className="flex items-center justify-center bg-[#2a2a24] w-32 h-32 rounded-full">
