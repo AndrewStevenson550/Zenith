@@ -11,11 +11,13 @@ function App() {
   return (
     <>
       <Header />
-      
+      <div className="flex flex-row items-start justify-center gap-6 w-full px-10 pt-10">
         <TimeCard />
         <WeatherCard />
         <TodoList />
         <NewsCard />
+      </div>
+        
       
     </>
   )
