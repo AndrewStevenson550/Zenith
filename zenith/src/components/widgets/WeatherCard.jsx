@@ -18,13 +18,19 @@ function WeatherCard() {
         const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=auto:ip&aqi=no`;
         
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Weather data fetch failed");
+        if (!response.ok){ 
+          console.error("WeatherAPI Error Details:", errorData.error.message);
+          throw new Error("Weather data fetch failed");
+          
+        }
+        
         
         const data = await response.json();
         setWeather(data);
       } catch (err) {
         console.error("Fetch error:", err);
         setError(err.message);
+
       }
     }
 
