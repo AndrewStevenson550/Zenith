@@ -2,36 +2,41 @@ import React, { useState, useEffect } from 'react';
 
 function WeatherCard() {
   const [weather, setWeather] = useState(null);
+  const [error, setError] = useState(null);
 
-  // SECURE: Pull from Environment Variables
-  // In Vercel Settings, add a variable named VITE_WEATHER_API_URL
-  const weatherUrl = import.meta.env.VITE_WEATHER_API_URL;
+  const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
   useEffect(() => {
-    // Prevent fetching if the URL isn't defined yet
-    if (!weatherUrl) {
-      console.error("Weather API URL is missing. Add VITE_WEATHER_API_URL to Vercel/Env.");
+    if (!apiKey) {
+      setError("API Key missing");
       return;
     }
 
-    const fetchWeather = async () => {
+    async function fetchWeather() {
       try {
-        const response = await fetch(weatherUrl);
+        // We use 'auto:ip' which tells WeatherAPI to look at the request's IP address
+        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=auto:ip&aqi=no`;
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Weather data fetch failed");
+        
         const data = await response.json();
         setWeather(data);
       } catch (err) {
-        console.error("Weather Fetch Error:", err);
+        console.error("Fetch error:", err);
+        setError(err.message);
       }
-    };
-    fetchWeather();
-  }, [weatherUrl]);
+    }
 
-  if (!weather) return <div className='text-white p-8'>Loading Weather...</div>;
+    fetchWeather();
+  }, [apiKey]);
+
+  if (error) return <div className='text-red-400 p-8 font-bold'>Error: {error}</div>;
+  if (!weather) return <div className='text-white p-8 animate-pulse'>Loading Weather...</div>;
 
   return (
     <div className="bg-[#1a222e] text-white p-8 rounded-2xl flex items-center max-w-3xl font-sans shadow-2xl border border-gray-800/50">
       
-      {/* Left Section: Icon and Temp */}
       <div className="flex items-center gap-8 pr-12 border-r border-gray-700">
         <div className="flex items-center justify-center bg-[#2a2a24] w-28 h-28 rounded-full shadow-inner">
           <img 
@@ -43,14 +48,13 @@ function WeatherCard() {
 
         <div>
           <h2 className="text-gray-400 uppercase tracking-widest text-xs font-bold mb-1">
-            {weather.location?.name}
+            📍 {weather.location?.name}
           </h2>
           <div className="flex items-center gap-4">
             <h1 className="text-6xl font-black italic tracking-tighter">
               {Math.round(weather.current?.temp_f)}°
             </h1>
             <div className="leading-tight">
-              {/* Splitting the condition text (e.g., "Clear Sky") into two lines */}
               <p className="text-2xl font-black uppercase tracking-tight text-white">
                 {weather.current?.condition?.text.split(' ')[0]}
               </p>
@@ -62,7 +66,6 @@ function WeatherCard() {
         </div>
       </div>
 
-      {/* Right Section: Stats */}
       <div className="flex gap-10 pl-10">
         <div className="flex flex-col items-center text-center">
           <span className="mb-2 text-xl opacity-70">💨</span>
