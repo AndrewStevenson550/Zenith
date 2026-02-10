@@ -43,7 +43,7 @@ function WeatherCard() {
   // Loading/Error states styled to maintain layout space
   if (error || !weather) {
     return (
-      <div className="bg-[#1a222e] text-white p-8 rounded-2xl w-full max-w-2xl mx-auto my-4 flex justify-center items-center min-h-[180px] border border-gray-800">
+      <div className="bg-[#1a222e] text-white p-9 rounded-2xl flex items-center w-full max-w-2xl font-sans shadow-2xl border border-gray-800/50 ml-100 -mt-50">
         <p className={error ? "text-red-400" : "animate-pulse"}>
           {error ? `Weather Error: ${error}` : "Detecting Local Weather..."}
         </p>
@@ -57,10 +57,10 @@ function WeatherCard() {
        - w-full max-w-2xl: Gives it a standard size to sit between widgets
        - flex: Keeps internal items aligned
     */
-    <div className="bg-[#1a222e] text-white p-8 rounded-2xl flex items-center w-full max-w-2xl font-sans shadow-2xl border border-gray-800/50 mx-auto my-4">
+    <div className="bg-[#1a222e] text-white p-9 rounded-2xl flex items-center w-full  font-sans shadow-2xl border border-gray-800/50 -mt-15">
       
       {/* Left Section: Icon and Temperature */}
-      <div className="flex items-center gap-6 pr-10 border-r border-gray-700">
+      <div className="flex items-center gap-6 pr-10 -pt-10 border-r border-gray-700">
         <div className="flex items-center justify-center bg-[#2a2a24] w-24 h-24 rounded-full shadow-inner">
           <img 
             src={weather.current?.condition?.icon} 

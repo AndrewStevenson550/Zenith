@@ -11,10 +11,12 @@ function App() {
   return (
     <>
       <Header />
-      <TimeCard />
-      <WeatherCard />
-      <TodoList />
-      <NewsCard />
+      
+        <TimeCard />
+        <WeatherCard />
+        <TodoList />
+        <NewsCard />
+      
     </>
   )
 }

@@ -26,7 +26,7 @@ function TodoList() {
   };
 
   return (
-    <div className='ml-300 -mt-47.5  rounded-xl bg-[#1a222e] p-6 flex flex-col gap-4 shadow-xl'>
+    <div className='ml-300 -mt-25  rounded-xl bg-[#1a222e] p-6 flex flex-col gap-4 shadow-xl'>
       <div className='flex items-center justify-between'>
         <h2 className='font-inter text-white text-xl font-bold'>My Tasks</h2>
         <button 
