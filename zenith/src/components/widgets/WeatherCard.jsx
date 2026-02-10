@@ -7,11 +7,10 @@ function WeatherCard() {
 
   useEffect(() => {
     async function fetchWeather() {
-      if (!apiKey) { setError("API Key missing"); return; }
+      if (!apiKey) return;
       try {
         const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=auto:ip&aqi=no`;
         const response = await fetch(url);
-        if (!response.ok) { setError("Weather data unavailable"); return; }
         const data = await response.json();
         setWeather(data);
       } catch (err) { setError("Network error"); }
@@ -19,19 +18,10 @@ function WeatherCard() {
     fetchWeather();
   }, [apiKey]);
 
-  if (error || !weather) {
-    return (
-      <div className="bg-[#1a222e] text-white p-9 rounded-2xl flex items-center justify-center w-full max-w-xl h-[180px] border border-gray-800/50">
-        <p className={error ? "text-red-400" : "animate-pulse text-gray-500"}>
-          {error ? `Weather Error: ${error}` : "Loading Weather..."}
-        </p>
-      </div>
-    );
-  }
+  if (error || !weather) return null; // Hide if error to prevent layout breaking
 
   return (
-    <div className="bg-[#1a222e] text-white p-8 rounded-2xl flex items-center w-full max-w-xl font-sans shadow-2xl border border-gray-800/50 h-[180px]">
-      {/* Left Section */}
+    <div className="bg-[#1a222e] text-white p-6 rounded-2xl flex items-center w-full max-w-xl shadow-2xl border border-gray-800/50 h-[200px]">
       <div className="flex items-center gap-6 pr-8 border-r border-gray-700 h-full">
         <div className="flex-shrink-0 flex items-center justify-center bg-[#2a2a24] w-20 h-20 rounded-full shadow-inner">
           <img src={weather.current?.condition?.icon} alt="icon" className="h-14 w-14 object-contain" />
@@ -41,14 +31,12 @@ function WeatherCard() {
           <div className="flex items-center gap-2">
             <h1 className="text-4xl font-black italic tracking-tighter">{Math.round(weather.current?.temp_f)}°</h1>
             <div className="leading-tight">
-              <p className="text-lg font-black uppercase text-white">{weather.current?.condition?.text.split(' ')[0]}</p>
-              <p className="text-lg font-black uppercase text-white">{weather.current?.condition?.text.split(' ')[1] || ''}</p>
+              <p className="text-lg font-black uppercase">{weather.current?.condition?.text.split(' ')[0]}</p>
+              <p className="text-lg font-black uppercase">{weather.current?.condition?.text.split(' ')[1] || ''}</p>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Right Section */}
       <div className="flex gap-6 pl-8">
         <div className="flex flex-col items-center text-center">
           <span className="mb-1 text-lg">💨</span>
