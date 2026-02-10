@@ -1,68 +1,84 @@
 import React, { useState, useEffect } from 'react';
-import { urlWeather } from "../../api_keys/weather";
 
 function WeatherCard() {
   const [weather, setWeather] = useState(null);
 
+  // SECURE: Pull from Environment Variables
+  // In Vercel Settings, add a variable named VITE_WEATHER_API_URL
+  const weatherUrl = import.meta.env.VITE_WEATHER_API_URL;
+
   useEffect(() => {
+    // Prevent fetching if the URL isn't defined yet
+    if (!weatherUrl) {
+      console.error("Weather API URL is missing. Add VITE_WEATHER_API_URL to Vercel/Env.");
+      return;
+    }
+
     const fetchWeather = async () => {
       try {
-        const response = await fetch(urlWeather); // Spelled with 's'
+        const response = await fetch(weatherUrl);
         const data = await response.json();
-        console.log('Data Received:', data);
         setWeather(data);
       } catch (err) {
-        console.log("ERROR", err);
+        console.error("Weather Fetch Error:", err);
       }
     };
     fetchWeather();
-  }, []);
+  }, [weatherUrl]);
 
-  // THE GUARD: This prevents the 'null' error
-  if (!weather) return <div className='text-white'>Loading...</div>;
+  if (!weather) return <div className='text-white p-8'>Loading Weather...</div>;
 
   return (
-    <>
-      <div className="bg-[#1a222e] text-white p-8 rounded-2xl flex items-center max-w-3xl font-sans ml-98 -mt-50">
+    <div className="bg-[#1a222e] text-white p-8 rounded-2xl flex items-center max-w-3xl font-sans shadow-2xl border border-gray-800/50">
+      
+      {/* Left Section: Icon and Temp */}
+      <div className="flex items-center gap-8 pr-12 border-r border-gray-700">
+        <div className="flex items-center justify-center bg-[#2a2a24] w-28 h-28 rounded-full shadow-inner">
+          <img 
+            src={weather.current?.condition?.icon} 
+            alt="weather icon" 
+            className="h-20 w-20 object-contain" 
+          />
+        </div>
 
-        <div className="flex items-center gap-8 pr-20 border-r border-gray-700">
-          <div className="flex items-center justify-center bg-[#2a2a24] w-32 h-32 rounded-full">
-            <img src={weather.current.condition.icon} alt="weather icon" className="h-21 w-21 object-contain" />
-          </div>
-
-          <div>
-            <h2 className="text-gray-400 uppercase tracking-widest text-sm font-bold mb-1">
-              {weather.location.name}
-            </h2>
-            <div className="flex items-center gap-6">
-              <h1 className="text-7xl font-black italic tracking-tighter">
-                {weather.current.temp_f}°
-              </h1>
-              <div className="leading-tight">
-                <p className="text-3xl font-black uppercase tracking-tight">Clear</p>
-                <p className="text-3xl font-black uppercase tracking-tight">Sky</p>
-              </div>
+        <div>
+          <h2 className="text-gray-400 uppercase tracking-widest text-xs font-bold mb-1">
+            {weather.location?.name}
+          </h2>
+          <div className="flex items-center gap-4">
+            <h1 className="text-6xl font-black italic tracking-tighter">
+              {Math.round(weather.current?.temp_f)}°
+            </h1>
+            <div className="leading-tight">
+              {/* Splitting the condition text (e.g., "Clear Sky") into two lines */}
+              <p className="text-2xl font-black uppercase tracking-tight text-white">
+                {weather.current?.condition?.text.split(' ')[0]}
+              </p>
+              <p className="text-2xl font-black uppercase tracking-tight text-white">
+                {weather.current?.condition?.text.split(' ')[1] || ''}
+              </p>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="flex gap-12 pl-12">
-          <div className="flex flex-col items-center text-center">
-            <div className="mb-2 text-gray-400">💨</div>
-            <p className="text-xl font-bold leading-none">{weather.current.wind_mph}</p>
-            <p className="text-xl font-bold mb-1">mph</p>
-            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Wind</p>
-          </div>
-
-          <div className="flex flex-col items-center text-center">
-            <div className="mb-2 text-gray-400 text-xl">💧</div>
-            <p className="text-xl font-bold mb-1">{weather.current.humidity}%</p>
-            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Humidity</p>
-          </div>
+      {/* Right Section: Stats */}
+      <div className="flex gap-10 pl-10">
+        <div className="flex flex-col items-center text-center">
+          <span className="mb-2 text-xl opacity-70">💨</span>
+          <p className="text-xl font-bold leading-none">{weather.current?.wind_mph}</p>
+          <p className="text-sm font-bold mb-1">mph</p>
+          <p className="text-[9px] uppercase tracking-widest text-gray-500 font-bold">Wind</p>
         </div>
 
+        <div className="flex flex-col items-center text-center">
+          <span className="mb-2 text-xl opacity-70">💧</span>
+          <p className="text-xl font-bold mb-1">{weather.current?.humidity}%</p>
+          <p className="text-[9px] uppercase tracking-widest text-gray-500 font-bold">Humidity</p>
+        </div>
       </div>
-    </>
+
+    </div>
   );
 }
 
